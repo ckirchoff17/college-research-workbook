@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>College Research Workbook | HelloCollege</title>
+<meta name="description" content="A free workbook for high school students to reflect on what matters, research colleges, and compare them side by side.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple: #4A2C7A;
+    --purple-deep: #341D59;
+    --purple-soft: #F1ECF8;
+    --lavender: #C9B8E6;
+    --gray: #5E6472;
+    --gray-line: #D5D7DD;
+    --gray-bg: #E9EAEE;
+    --paper: #FFFFFF;
+    --ink: #221F29;
+    --serif: "Young Serif", Georgia, "Times New Roman", serif;
+    --sans: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--gray-bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  a { color: var(--purple); }
+  :focus-visible { outline: 3px solid var(--purple); outline-offset: 2px; }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* Header */
+  header.masthead { padding: 2.75rem 0 1.5rem; }
+  .brand { font-weight: 700; color: var(--purple); font-size: 0.95rem; margin: 0 0 0.75rem; }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 6vw, 3.6rem);
+    line-height: 1.05;
+    margin: 0 0 0.75rem;
+    color: var(--purple-deep);
+    max-width: 14ch;
+  }
+  .lede { max-width: 58ch; color: var(--gray); margin: 0; font-size: 1.125rem; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 1.5rem; }
+  .btn {
+    font: inherit; font-size: 0.95rem; font-weight: 700;
+    border: 2px solid var(--purple); background: var(--paper); color: var(--purple);
+    padding: 0.45rem 0.9rem; border-radius: 6px; cursor: pointer;
+  }
+  .btn:hover { background: var(--purple-soft); }
+  .btn.solid { background: var(--purple); color: #fff; }
+  .btn.solid:hover { background: var(--purple-deep); }
+  .btn.quiet { border-color: var(--gray-line); color: var(--gray); }
+  .btn.danger { border-color: transparent; color: #8A2B2B; background: transparent; text-decoration: underline; }
+  .save-status { font-size: 0.9rem; color: var(--gray); margin-left: auto; }
+  .save-status.warn { color: #8A2B2B; font-weight: 700; }
+
+  /* Divider tabs: the workbook's signature */
+  .tabs { display: flex; gap: 0.35rem; margin-top: 2rem; padding-left: 0.5rem; overflow-x: auto; }
+  .tab {
+    font: inherit; cursor: pointer; border: 0;
+    background: var(--lavender); color: var(--purple-deep);
+    padding: 0.7rem 1.2rem 0.6rem; border-radius: 12px 12px 0 0;
+    text-align: left; white-space: nowrap; min-width: 8.5rem;
+    position: relative; top: 4px;
+  }
+  .tab .num { display: block; font-size: 0.8rem; opacity: 0.8; }
+  .tab .name { font-family: var(--serif); font-size: 1.15rem; }
+  .tab[aria-selected="true"] { background: var(--paper); top: 0; padding-bottom: 0.85rem; box-shadow: 0 -2px 0 var(--purple) inset; }
+  .tab[aria-selected="true"] { box-shadow: none; border-top: 4px solid var(--purple); }
+
+  .sheet { background: var(--paper); border-radius: 0 10px 10px 10px; padding: 2.5rem clamp(1.25rem, 4vw, 3rem) 3rem; margin-bottom: 3rem; }
+  .panel[hidden] { display: none; }
+
+  h2 { font-family: var(--serif); font-weight: 400; font-size: 2rem; line-height: 1.15; margin: 0 0 0.5rem; color: var(--purple-deep); }
+  h3 { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; margin: 2.25rem 0 0.75rem; color: var(--purple-deep); }
+  .intro { max-width: 62ch; color: var(--gray); margin: 0 0 1.5rem; }
+
+  /* Start here */
+  .grades { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0; border-top: 2px solid var(--purple); margin-top: 1.5rem; }
+  .grade { padding: 1.1rem 1.25rem 1.25rem 0; }
+  .grade + .grade { padding-left: 1.25rem; border-left: 1px solid var(--gray-line); }
+  .grade h4 { font-family: var(--serif); font-weight: 400; font-size: 1.25rem; margin: 0 0 0.4rem; color: var(--purple); }
+  .grade p { margin: 0; font-size: 0.98rem; }
+  .how { max-width: 62ch; }
+  .how li { margin-bottom: 0.4rem; }
+  .note { background: var(--purple-soft); padding: 1rem 1.25rem; border-radius: 8px; max-width: 62ch; font-size: 0.98rem; margin-top: 1.5rem; }
+
+  /* Fields */
+  label, .label { display: block; font-weight: 700; margin-bottom: 0.3rem; }
+  .hint { display: block; font-weight: 400; font-size: 0.88rem; color: var(--gray); margin-top: 0.15rem; }
+  input[type="text"], input[type="date"], textarea, select {
+    width: 100%; font: inherit; color: var(--ink);
+    border: 1.5px solid var(--gray-line); border-radius: 6px;
+    padding: 0.5rem 0.65rem; background: #fff;
+  }
+  textarea { min-height: 5.5rem; resize: vertical; }
+  input:focus, textarea:focus, select:focus { border-color: var(--purple); outline: none; box-shadow: 0 0 0 3px var(--purple-soft); }
+  .field { margin-bottom: 1.1rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0 1.5rem; }
+
+  /* 1–5 scales */
+  .scale-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+  .scale-table th, .scale-table td { padding: 0.6rem 0.4rem; border-bottom: 1px solid var(--gray-line); vertical-align: middle; }
+  .scale-table th { text-align: left; font-weight: 700; }
+  .scale-table thead th { font-weight: 400; font-size: 0.85rem; color: var(--gray); text-align: center; border-bottom: 2px solid var(--purple); }
+  .scale-table thead th:first-child { text-align: left; }
+  .scale-table td { text-align: center; }
+  .scale-table .fhint { display: block; font-weight: 400; font-size: 0.85rem; color: var(--gray); }
+  .dot { position: relative; display: inline-block; }
+  .dot input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .dot span {
+    display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    border: 1.5px solid var(--gray-line); font-size: 0.9rem; color: var(--gray);
+  }
+  .dot input:checked + span { background: var(--purple); border-color: var(--purple); color: #fff; font-weight: 700; }
+  .dot input:focus-visible + span { outline: 3px solid var(--purple); outline-offset: 2px; }
+  .clear-link { font: inherit; font-size: 0.85rem; background: none; border: 0; color: var(--gray); text-decoration: underline; cursor: pointer; }
+
+  /* Colleges */
+  .college { border: 1.5px solid var(--gray-line); border-left: 6px solid var(--purple); border-radius: 8px; margin: 1.25rem 0; background: #fff; }
+  .college > summary {
+    list-style: none; cursor: pointer; padding: 1rem 1.25rem;
+    display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap;
+  }
+  .college > summary::-webkit-details-marker { display: none; }
+  .college > summary .cname { font-family: var(--serif); font-size: 1.35rem; color: var(--purple-deep); }
+  .college > summary .ctag { font-size: 0.85rem; padding: 0.1rem 0.55rem; border-radius: 999px; background: var(--purple-soft); color: var(--purple); font-weight: 700; }
+  .college > summary .toggle { margin-left: auto; font-size: 0.9rem; color: var(--gray); }
+  .college[open] > summary .toggle::after { content: "Collapse"; }
+  .college:not([open]) > summary .toggle::after { content: "Expand"; }
+  .college-body { padding: 0 1.25rem 1.25rem; }
+  .college-body h4 { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; color: var(--purple); margin: 1.5rem 0 0.75rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--gray-line); }
+  .checks { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; }
+  .checks label { font-weight: 400; display: inline-flex; gap: 0.35rem; align-items: center; margin: 0; }
+  .checks input { width: 1.1rem; height: 1.1rem; accent-color: var(--purple); }
+  .college-actions { display: flex; justify-content: flex-end; margin-top: 1rem; }
+  .empty { border: 2px dashed var(--lavender); border-radius: 10px; padding: 2rem; text-align: center; color: var(--gray); }
+  .empty p { margin: 0 0 1rem; }
+
+  /* Compare */
+  .compare-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .switch { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 700; cursor: pointer; }
+  .switch input { width: 1.2rem; height: 1.2rem; accent-color: var(--purple); }
+  .balance { color: var(--gray); font-size: 0.95rem; }
+  .table-scroll { overflow-x: auto; border: 1.5px solid var(--gray-line); border-radius: 8px; }
+  table.compare { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 0.95rem; }
+  table.compare th, table.compare td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--gray-line); text-align: left; vertical-align: top; }
+  table.compare thead th { background: var(--purple); color: #fff; font-family: var(--serif); font-weight: 400; font-size: 1.05rem; position: sticky; top: 0; }
+  table.compare tbody th { background: #F7F7F9; font-weight: 700; white-space: nowrap; position: sticky; left: 0; }
+  table.compare tr.group th { background: var(--purple-soft); color: var(--purple); font-family: var(--serif); font-weight: 400; font-size: 1rem; }
+  table.compare tr.score td { font-weight: 700; font-size: 1.25rem; color: var(--purple-deep); }
+  table.compare tr.score td small { display: block; font-weight: 400; font-size: 0.8rem; color: var(--gray); }
+  .muted { color: #9A9EA8; }
+  .score-note { max-width: 62ch; font-size: 0.92rem; color: var(--gray); margin: 0.75rem 0 0; }
+
+  footer { text-align: center; color: var(--gray); font-size: 0.88rem; padding: 0 1rem 2.5rem; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 640px) {
+    .tab { min-width: 7rem; padding: 0.6rem 0.9rem 0.5rem; }
+    .grade + .grade { padding-left: 0; border-left: 0; border-top: 1px solid var(--gray-line); }
+    .dot span { width: 1.85rem; height: 1.85rem; }
+    .scale-table th, .scale-table td { padding: 0.5rem 0.15rem; }
+    .save-status { margin-left: 0; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+  /* Print */
+  .print-only { display: none; }
+  @media print {
+    @page { margin: 0.6in; }
+    body { background: #fff; font-size: 11pt; }
+    .toolbar, .tabs, .no-print, footer .no-print { display: none !important; }
+    .print-only { display: block; }
+    header.masthead { padding: 0 0 0.5rem; }
+    .sheet { padding: 0; border-radius: 0; margin: 0; }
+    .panel, .panel[hidden] { display: block !important; }
+    .panel + .panel { break-before: page; }
+    .college { break-inside: avoid-page; border-left-width: 4px; }
+    .college + .college { break-before: page; }
+    .college > summary .toggle { display: none; }
+    input[type="text"], input[type="date"], textarea, select { border: 0; border-bottom: 1px solid #999; border-radius: 0; padding-left: 0; }
+    select { appearance: none; -webkit-appearance: none; }
+    textarea { resize: none; min-height: 4.5rem; }
+    .table-scroll { overflow: visible; border: 0; }
+    table.compare { min-width: 0; font-size: 9pt; }
+    table.compare thead th { background: #fff; color: var(--ink); border-bottom: 2px solid #000; }
+    table.compare tbody th { position: static; }
+    .note { background: none; border: 1px solid #bbb; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead wrap">
+  <p class="brand">HelloCollege</p>
+  <h1>College Research Workbook</h1>
+  <p class="lede">Figure out what you want in a college, research the schools on your list, and compare them side by side. Use it in any grade and come back to it as your answers change.</p>
+
+  <div class="toolbar" role="toolbar" aria-label="Workbook tools">
+    <button class="btn solid" type="button" id="btn-print">Print my workbook</button>
+    <button class="btn" type="button" id="btn-print-blank">Print a blank copy</button>
+    <button class="btn quiet" type="button" id="btn-export">Download backup</button>
+    <button class="btn quiet" type="button" id="btn-import">Restore backup</button>
+    <input type="file" id="import-file" accept="application/json,.json" class="sr-only" tabindex="-1" aria-hidden="true">
+    <button class="btn danger" type="button" id="btn-clear">Start over</button>
+    <span class="save-status" id="save-status" role="status" aria-live="polite"></span>
+  </div>
+
+  <nav class="tabs" role="tablist" aria-label="Workbook sections">
+    <button class="tab" role="tab" id="tab-start" aria-controls="panel-start" aria-selected="true"><span class="num">Start</span><span class="name">How to use this</span></button>
+    <button class="tab" role="tab" id="tab-me" aria-controls="panel-me" aria-selected="false" tabindex="-1"><span class="num">Part 1</span><span class="name">About me</span></button>
+    <button class="tab" role="tab" id="tab-colleges" aria-controls="panel-colleges" aria-selected="false" tabindex="-1"><span class="num">Part 2</span><span class="name">My colleges</span></button>
+    <button class="tab" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1"><span class="num">Part 3</span><span class="name">Compare</span></button>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="sheet">
+
+    <!-- START -->
+    <section class="panel" id="panel-start" role="tabpanel" aria-labelledby="tab-start">
+      <h2>How to use this workbook</h2>
+      <p class="intro">The workbook has three parts that build on each other. What you decide matters to you in Part 1 shapes how you judge each college in Part 2, and Part 3 pulls it all together into one chart.</p>
+      <ol class="how">
+        <li><strong>About me.</strong> Reflect on what you want from college and rate how much each factor matters to you.</li>
+        <li><strong>My colleges.</strong> Add each school you're considering and look up its fit, cost, and admissions details.</li>
+        <li><strong>Compare.</strong> See your schools side by side. You can turn on a fit score based on your own ratings.</li>
+      </ol>
+
+      <h3>Where to focus in your grade</h3>
+      <div class="grades">
+        <div class="grade"><h4>9th grade</h4><p>Spend most of your time in Part 1. Try researching one or two schools you're curious about just to see what's out there.</p></div>
+        <div class="grade"><h4>10th grade</h4><p>Revisit Part 1, since your answers will change. Research three to five schools of different sizes and settings, including one close enough to visit.</p></div>
+        <div class="grade"><h4>11th grade</h4><p>Build your list in Part 2 with a mix of reach, target, and likely schools. Run each school's net price calculator with a parent or guardian.</p></div>
+        <div class="grade"><h4>12th grade</h4><p>Confirm deadlines and application plans. After decisions come in, add your actual aid offers and use the comparison chart to choose.</p></div>
+      </div>
+
+      <div class="note no-print">
+        <strong>Your answers stay on this device.</strong> The workbook saves automatically in this browser, and nothing is sent anywhere. If you switch computers or clear your browser, your work won't come with you, so use <em>Download backup</em> now and then and <em>Restore backup</em> to pick up where you left off.
+      </div>
+    </section>
+
+    <!-- PART 1 -->
+    <section class="panel" id="panel-me" role="tabpanel" aria-labelledby="tab-me" hidden>
+      <h2>Part 1: About me</h2>
+      <p class="intro">There are no right answers here. Be honest about what you want, not what you think colleges want to hear.</p>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="r-name">Your name</label>
+          <input type="text" id="r-name" data-bind="reflection.name" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="r-grade">Grade and date</label>
+          <input type="text" id="r-grade" data-bind="reflection.grade" placeholder="e.g. 10th grade, fall">
+        </div>
+      </div>
+
+      <h3>Reflect</h3>
+      <div class="field">
+        <label for="r-why">Why do you want to go to college?<span class="hint">What do you hope to get out of these years, beyond a degree?</span></label>
+        <textarea id="r-why" data-bind="reflection.why"></textarea>
+      </div>
+      <div class="field">
+        <label for="r-interests">What subjects, activities, or questions excite you right now?<span class="hint">It's fine not to know your major. List what you'd like to explore.</span></label>
+        <textarea id="r-interests" data-bind="reflection.interests"></textarea>
+      </div>
+      <div class="field">
+        <label for="r-learn">How do you learn best?<span class="hint">Small discussions or big lectures? Hands-on projects? Lots of guidance or lots of independence?</span></label>
+        <textarea id="r-learn" data-bind="reflection.learn"></textarea>
+      </div>
+      <div class="field">
+        <label for="r-picture">Picture a normal Tuesday at college. What does it look like?<span class="hint">Where are you, who are you with, and what are you doing after class?</span></label>
+        <textarea id="r-picture" data-bind="reflection.picture"></textarea>
+      </div>
+      <div class="field">
+        <label for="r-deal">Is there anything that would rule a school out for you?</label>
+        <textarea id="r-deal" data-bind="reflection.dealbreakers"></textarea>
+      </div>
+
+      <h3>What matters most</h3>
+      <p class="intro">Rate how important each factor is to you, from 1 (not important) to 5 (essential). These ratings power the optional fit score in Part 3.</p>
+      <div id="importance"></div>
+
+      <div class="grid-2" style="margin-top:1.5rem">
+        <div class="field">
+          <label for="r-size">The size I'm leaning toward<span class="hint">Small is under about 5,000 undergrads; large is over about 15,000.</span></label>
+          <input type="text" id="r-size" data-bind="reflection.sizePref">
+        </div>
+        <div class="field">
+          <label for="r-setting">The setting I'm leaning toward<span class="hint">City, suburb, small town, or rural.</span></label>
+          <input type="text" id="r-setting" data-bind="reflection.settingPref">
+        </div>
+        <div class="field">
+          <label for="r-distance">How far from home I'd like to be</label>
+          <input type="text" id="r-distance" data-bind="reflection.distancePref">
+        </div>
+        <div class="field">
+          <label for="r-budget">What my family has said about cost<span class="hint">Talk with a parent or guardian about this early.</span></label>
+          <input type="text" id="r-budget" data-bind="reflection.budget">
+        </div>
+      </div>
+    </section>
+
+    <!-- PART 2 -->
+    <section class="panel" id="panel-colleges" role="tabpanel" aria-labelledby="tab-colleges" hidden>
+      <h2>Part 2: My colleges</h2>
+      <p class="intro">Add a page for each school you're considering. You don't have to fill in everything at once; leave blanks and come back as you learn more.</p>
+      <div id="colleges"></div>
+      <div class="no-print" style="margin-top:1rem"><button class="btn solid" type="button" id="btn-add">Add a college</button></div>
+    </section>
+
+    <!-- PART 3 -->
+    <section class="panel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+      <h2>Part 3: Compare</h2>
+      <p class="intro">Everything here comes from Part 2. To change something, update that college's page.</p>
+      <div class="compare-controls">
+        <label class="switch no-print"><input type="checkbox" id="toggle-score"> Show my fit score</label>
+        <span class="balance" id="balance"></span>
+      </div>
+      <div id="compare"></div>
+      <p class="score-note" id="score-note" hidden>Your fit score combines how much each factor matters to you (Part 1) with how well you think each school matches (Part 2), on a scale of 0 to 100. It reflects only your own ratings, so use it to start a conversation with your counselor or family, not to make the decision for you.</p>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <p>Created by HelloCollege counselors. Helping families through the college process since 2012.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "hc-college-workbook-v1";
+
+  var FACTORS = [
+    { id: "size",      label: "Size",                        hint: "Number of students" },
+    { id: "setting",   label: "Setting",                     hint: "City, suburb, town, or rural" },
+    { id: "distance",  label: "Distance from home",          hint: "" },
+    { id: "academics", label: "Academic programs",           hint: "Majors and classes I want" },
+    { id: "cost",      label: "Affordability",               hint: "Net price and aid" },
+    { id: "culture",   label: "Campus culture",              hint: "Community, traditions, vibe" },
+    { id: "support",   label: "Support and advising",        hint: "Access to professors and help" },
+    { id: "outcomes",  label: "Career and grad school outcomes", hint: "Internships, jobs, grad school" }
+  ];
+
+  var PLANS = ["Early Decision", "Early Action", "Restrictive Early Action", "Regular Decision", "Rolling"];
+
+  function blankState() {
+    return { version: 1, reflection: {}, importance: {}, colleges: [], showScore: false };
+  }
+  function blankCollege() {
+    return {
+      id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      name: "", location: "", label: "", size: "", setting: "", majors: "", culture: "",
+      sticker: "", net: "", merit: "", aidOffer: "", costNotes: "",
+      acceptance: "", testPolicy: "", gpa: "", tests: "", plans: [], deadline: "", admitNotes: "",
+      ratings: {}, notes: ""
+    };
+  }
+
+  var state = load();
+  var printingBlank = false;
+  var savedState = null;
+
+  /* ---------- Storage ---------- */
+  function load() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return blankState();
+      return normalize(JSON.parse(raw));
+    } catch (e) {
+      return blankState();
+    }
+  }
+  function normalize(s) {
+    var base = blankState();
+    if (!s || typeof s !== "object") return base;
+    base.reflection = (s.reflection && typeof s.reflection === "object") ? s.reflection : {};
+    base.importance = (s.importance && typeof s.importance === "object") ? s.importance : {};
+    base.showScore = !!s.showScore;
+    base.colleges = Array.isArray(s.colleges) ? s.colleges.map(function (c) {
+      var b = blankCollege();
+      for (var k in b) if (c && c[k] !== undefined) b[k] = c[k];
+      if (!Array.isArray(b.plans)) b.plans = [];
+      if (!b.ratings || typeof b.ratings !== "object") b.ratings = {};
+      return b;
+    }) : [];
+    return base;
+  }
+  var saveTimer = null;
+  function save() {
+    if (printingBlank) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      var status = document.getElementById("save-status");
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        status.textContent = "Saved on this device";
+        status.classList.remove("warn");
+      } catch (e) {
+        status.textContent = "Couldn't save in this browser. Use Download backup to keep your work.";
+        status.classList.add("warn");
+      }
+    }, 300);
+  }
+
+  /* ---------- Helpers ---------- */
+  function esc(v) {
+    return String(v == null ? "" : v)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function getPath(obj, path) {
+    return path.split(".").reduce(function (o, k) { return o ? o[k] : undefined; }, obj);
+  }
+  function setPath(obj, path, val) {
+    var keys = path.split("."), last = keys.pop();
+    var target = keys.reduce(function (o, k) { if (!o[k]) o[k] = {}; return o[k]; }, obj);
+    target[last] = val;
+  }
+  function findCollege(id) {
+    for (var i = 0; i < state.colleges.length; i++) if (state.colleges[i].id === id) return state.colleges[i];
+    return null;
+  }
+  function option(val, cur, label) {
+    return '<option value="' + esc(val) + '"' + (val === cur ? " selected" : "") + ">" + esc(label || val || "Choose one") + "</option>";
+  }
+
+  /* ---------- Rating scales ---------- */
+  function scaleTable(opts) {
+    // opts: { caption, name(prefix), values, attrs(fid) , lowLabel, highLabel }
+    var h = '<table class="scale-table"><caption class="sr-only">' + esc(opts.caption) + '</caption><thead><tr><th scope="col">Factor</th>';
+    for (var n = 1; n <= 5; n++) {
+      var lab = n === 1 ? opts.lowLabel : n === 5 ? opts.highLabel : "";
+      h += '<th scope="col">' + (lab ? esc(lab) : '<span class="sr-only">' + n + "</span>") + "</th>";
+    }
+    h += '<th scope="col"><span class="sr-only">Clear</span></th></tr></thead><tbody>';
+    FACTORS.forEach(function (f) {
+      var cur = Number(opts.values[f.id]) || 0;
+      var nm = opts.name + "-" + f.id;
+      h += '<tr><th scope="row" id="' + nm + '-lbl">' + esc(f.label) + (f.hint ? '<span class="fhint">' + esc(f.hint) + "</span>" : "") + "</th>";
+      for (var i = 1; i <= 5; i++) {
+        h += '<td><label class="dot"><input type="radio" name="' + nm + '" value="' + i + '"' + (cur === i ? " checked" : "") +
+          " " + opts.attrs(f.id) + ' aria-label="' + esc(f.label) + ": " + i + ' of 5"><span aria-hidden="true">' + i + "</span></label></td>";
+      }
+      h += '<td class="no-print"><button type="button" class="clear-link" data-clear="' + nm + '" ' + opts.attrs(f.id) + '>Clear</button></td></tr>';
+    });
+    return h + "</tbody></table>";
+  }
+
+  function renderImportance() {
+    document.getElementById("importance").innerHTML = scaleTable({
+      caption: "How important each factor is to me",
+      name: "imp", values: state.importance,
+      attrs: function (fid) { return 'data-imp="' + fid + '"'; },
+      lowLabel: "Not important", highLabel: "Essential"
+    });
+  }
+
+  /* ---------- Part 2: colleges ---------- */
+  function field(c, key, label, hint, placeholder) {
+    var id = c.id + "-" + key;
+    return '<div class="field"><label for="' + id + '">' + esc(label) + (hint ? '<span class="hint">' + hint + "</span>" : "") +
+      '</label><input type="text" id="' + id + '" data-c="' + c.id + '" data-f="' + key + '" value="' + esc(c[key]) + '"' +
+      (placeholder ? ' placeholder="' + esc(placeholder) + '"' : "") + "></div>";
+  }
+  function area(c, key, label, hint) {
+    var id = c.id + "-" + key;
+    return '<div class="field"><label for="' + id + '">' + esc(label) + (hint ? '<span class="hint">' + hint + "</span>" : "") +
+      '</label><textarea id="' + id + '" data-c="' + c.id + '" data-f="' + key + '">' + esc(c[key]) + "</textarea></div>";
+  }
+  function select(c, key, label, options, hint) {
+    var id = c.id + "-" + key;
+    var h = '<div class="field"><label for="' + id + '">' + esc(label) + (hint ? '<span class="hint">' + hint + "</span>" : "") +
+      '</label><select id="' + id + '" data-c="' + c.id + '" data-f="' + key + '">' + option("", c[key], "Choose one");
+    options.forEach(function (o) { h += option(o, c[key]); });
+    return h + "</select></div>";
+  }
+
+  function collegeHTML(c, idx) {
+    var title = c.name ? esc(c.name) : "College " + (idx + 1);
+    var h = '<details class="college" open data-id="' + c.id + '"><summary><span class="cname">' + title + "</span>" +
+      (c.label ? '<span class="ctag">' + esc(c.label) + "</span>" : "") + '<span class="toggle" aria-hidden="true"></span></summary><div class="college-body">';
+
+    h += '<div class="grid-2">' +
+      field(c, "name", "College name") +
+      field(c, "location", "Location", "", "City, state") +
+      '</div><div class="grid-2">' +
+      select(c, "label", "For me, this school is a...", ["Reach", "Target", "Likely", "Not sure yet"],
+        "Compare your GPA and scores to the school's middle 50% ranges below.") +
+      "</div>";
+
+    h += "<h4>Fit</h4><div class=\"grid-2\">" +
+      field(c, "size", "Number of undergraduates", "Look on the school's About or Facts page.") +
+      select(c, "setting", "Setting", ["City", "Suburb", "Small town", "Rural"]) +
+      "</div>" +
+      area(c, "majors", "Majors or programs that interest me here", "Check the list of majors and a few course listings.") +
+      area(c, "culture", "What campus life seems like", "Student newspaper, social media, a virtual tour, or a visit all help here.");
+
+    h += "<h4>Cost</h4><div class=\"grid-2\">" +
+      field(c, "sticker", "Full cost of attendance per year", "Usually listed on the financial aid page. Includes tuition, housing, and food.") +
+      field(c, "net", "My net price estimate", "Search the college's name plus \u201cnet price calculator.\u201d Every U.S. college has one. Do this with a parent or guardian.") +
+      select(c, "merit", "Offers merit scholarships?", ["Yes", "No", "Some", "Not sure"], "Check the scholarships page or Common Data Set section H.") +
+      field(c, "aidOffer", "My actual aid offer (after admission)", "Seniors: fill this in when your aid letter arrives.") +
+      "</div>" +
+      area(c, "costNotes", "Cost notes", "");
+
+    h += "<h4>Admissions</h4><div class=\"grid-3\">" +
+      field(c, "acceptance", "Acceptance rate", "Find it in the Common Data Set (section C) or on College Navigator.") +
+      select(c, "testPolicy", "Test policy", ["Required", "Test optional", "Test free", "Not sure"]) +
+      field(c, "deadline", "My application deadline", "", "e.g. Jan 1") +
+      field(c, "gpa", "Middle 50% GPA", "The middle half of admitted students.") +
+      field(c, "tests", "Middle 50% SAT or ACT", "Common Data Set section C9.") +
+      "</div>";
+    h += '<div class="field"><span class="label">Application plans offered</span><div class="checks">';
+    PLANS.forEach(function (p) {
+      h += '<label><input type="checkbox" data-c="' + c.id + '" data-plan="' + esc(p) + '"' + (c.plans.indexOf(p) > -1 ? " checked" : "") + "> " + esc(p) + "</label>";
+    });
+    h += "</div></div>" + area(c, "admitNotes", "Admissions notes", "Interviews, essays, demonstrated interest, anything else you learn.");
+
+    h += "<h4>How well does it match what I want?</h4>" +
+      '<p class="hint" style="margin:0 0 0.5rem">Rate this school on each factor from 1 (poor match) to 5 (great match).</p>' +
+      scaleTable({
+        caption: "How well this college matches me",
+        name: "rate-" + c.id, values: c.ratings,
+        attrs: function (fid) { return 'data-c="' + c.id + '" data-rate="' + fid + '"'; },
+        lowLabel: "Poor match", highLabel: "Great match"
+      });
+
+    h += area(c, "notes", "Anything else I want to remember", "");
+    h += '<div class="college-actions no-print"><button type="button" class="btn danger" data-remove="' + c.id + '">Remove this college</button></div>';
+    return h + "</div></details>";
+  }
+
+  function renderColleges() {
+    var box = document.getElementById("colleges");
+    if (!state.colleges.length) {
+      box.innerHTML = '<div class="empty"><p>You haven\u2019t added any colleges yet. Start with a school you\u2019ve heard of, or one you\u2019re curious about.</p></div>';
+      return;
+    }
+    box.innerHTML = state.colleges.map(collegeHTML).join("");
+  }
+
+  /* ---------- Part 3: compare ---------- */
+  function fitScore(c) {
+    var num = 0, den = 0, used = 0, wanted = 0;
+    FACTORS.forEach(function (f) {
+      var imp = Number(state.importance[f.id]) || 0;
+      var r = Number(c.ratings[f.id]) || 0;
+      if (imp) wanted++;
+      if (imp && r) { num += imp * r; den += imp * 5; used++; }
+    });
+    return { value: den ? Math.round((num / den) * 100) : null, used: used, wanted: wanted };
+  }
+  function cell(v) { return v ? esc(v) : '<span class="muted">Not yet</span>'; }
+
+  function renderCompare() {
+    var box = document.getElementById("compare");
+    var cols = state.colleges;
+    var toggle = document.getElementById("toggle-score");
+    toggle.checked = !!state.showScore;
+    document.getElementById("score-note").hidden = !state.showScore;
+
+    var counts = { Reach: 0, Target: 0, Likely: 0 };
+    cols.forEach(function (c) { if (counts[c.label] !== undefined) counts[c.label]++; });
+    document.getElementById("balance").textContent = cols.length
+      ? "My list: " + counts.Reach + " reach, " + counts.Target + " target, " + counts.Likely + " likely"
+      : "";
+
+    if (!cols.length) {
+      box.innerHTML = '<div class="empty"><p>Add colleges in Part 2 and they\u2019ll show up here side by side.</p></div>';
+      return;
+    }
+
+    var rows = [
+      { group: "Basics" },
+      { label: "Location", key: "location" },
+      { label: "Reach, target, or likely", key: "label" },
+      { group: "Fit" },
+      { label: "Undergraduates", key: "size" },
+      { label: "Setting", key: "setting" },
+      { label: "Programs I like", key: "majors" },
+      { group: "Cost" },
+      { label: "Full cost per year", key: "sticker" },
+      { label: "My net price estimate", key: "net" },
+      { label: "Merit scholarships", key: "merit" },
+      { label: "My aid offer", key: "aidOffer" },
+      { group: "Admissions" },
+      { label: "Acceptance rate", key: "acceptance" },
+      { label: "Test policy", key: "testPolicy" },
+      { label: "Middle 50% GPA", key: "gpa" },
+      { label: "Middle 50% SAT or ACT", key: "tests" },
+      { label: "Plans offered", fn: function (c) { return c.plans.length ? esc(c.plans.join(", ")) : cell(""); } },
+      { label: "My deadline", key: "deadline" }
+    ];
+
+    var h = '<div class="table-scroll"><table class="compare"><caption class="sr-only">Side-by-side comparison of my colleges</caption><thead><tr><th scope="col"><span class="sr-only">Detail</span></th>';
+    cols.forEach(function (c, i) { h += '<th scope="col">' + (c.name ? esc(c.name) : "College " + (i + 1)) + "</th>"; });
+    h += "</tr></thead><tbody>";
+
+    if (state.showScore) {
+      h += '<tr class="score"><th scope="row">My fit score</th>';
+      cols.forEach(function (c) {
+        var s = fitScore(c);
+        if (!s.wanted) h += '<td><span class="muted">\u2014</span><small>Rate your priorities in Part 1</small></td>';
+        else if (s.value === null) h += '<td><span class="muted">\u2014</span><small>Rate this school in Part 2</small></td>';
+        else h += "<td>" + s.value + "<small>Based on " + s.used + " of " + s.wanted + " priorities</small></td>";
+      });
+      h += "</tr>";
+    }
+
+    rows.forEach(function (r) {
+      if (r.group) { h += '<tr class="group"><th scope="rowgroup" colspan="' + (cols.length + 1) + '">' + r.group + "</th></tr>"; return; }
+      h += '<tr><th scope="row">' + esc(r.label) + "</th>";
+      cols.forEach(function (c) { h += "<td>" + (r.fn ? r.fn(c) : cell(c[r.key])) + "</td>"; });
+      h += "</tr>";
+    });
+    box.innerHTML = h + "</tbody></table></div>";
+  }
+
+  /* ---------- Part 1 text fields ---------- */
+  function fillBound() {
+    document.querySelectorAll("[data-bind]").forEach(function (el) {
+      var v = getPath(state, el.getAttribute("data-bind"));
+      el.value = v == null ? "" : v;
+    });
+  }
+
+  function renderAll() {
+    fillBound();
+    renderImportance();
+    renderColleges();
+    renderCompare();
+  }
+
+  /* ---------- Events ---------- */
+  function handleChange(e) {
+    var el = e.target;
+    if (el.hasAttribute("data-bind")) {
+      setPath(state, el.getAttribute("data-bind"), el.value);
+    } else if (el.hasAttribute("data-imp") && el.type === "radio") {
+      state.importance[el.getAttribute("data-imp")] = Number(el.value);
+    } else if (el.hasAttribute("data-c")) {
+      var c = findCollege(el.getAttribute("data-c"));
+      if (!c) return;
+      if (el.hasAttribute("data-rate")) {
+        c.ratings[el.getAttribute("data-rate")] = Number(el.value);
+      } else if (el.hasAttribute("data-plan")) {
+        var p = el.getAttribute("data-plan");
+        c.plans = c.plans.filter(function (x) { return x !== p; });
+        if (el.checked) c.plans.push(p);
+      } else if (el.hasAttribute("data-f")) {
+        var key = el.getAttribute("data-f");
+        c[key] = el.value;
+        if (key === "name" || key === "label") updateSummary(c);
+      }
+    } else if (el.id === "toggle-score") {
+      state.showScore = el.checked;
+    } else {
+      return;
+    }
+    renderCompare();
+    save();
+  }
+
+  function updateSummary(c) {
+    var d = document.querySelector('.college[data-id="' + c.id + '"]');
+    if (!d) return;
+    var idx = state.colleges.indexOf(c);
+    d.querySelector(".cname").textContent = c.name || "College " + (idx + 1);
+    var tag = d.querySelector(".ctag");
+    if (c.label) {
+      if (!tag) { tag = document.createElement("span"); tag.className = "ctag"; d.querySelector(".cname").after(tag); }
+      tag.textContent = c.label;
+    } else if (tag) tag.remove();
+  }
+
+  document.addEventListener("input", handleChange);
+  document.addEventListener("change", handleChange);
+
+  document.addEventListener("click", function (e) {
+    var clr = e.target.closest("[data-clear]");
+    if (clr) {
+      var name = clr.getAttribute("data-clear");
+      document.querySelectorAll('input[name="' + name + '"]').forEach(function (r) { r.checked = false; });
+      if (clr.hasAttribute("data-imp")) delete state.importance[clr.getAttribute("data-imp")];
+      else if (clr.hasAttribute("data-rate")) {
+        var c = findCollege(clr.getAttribute("data-c"));
+        if (c) delete c.ratings[clr.getAttribute("data-rate")];
+      }
+      renderCompare(); save();
+      return;
+    }
+    var rm = e.target.closest("[data-remove]");
+    if (rm) {
+      var col = findCollege(rm.getAttribute("data-remove"));
+      var nm = col && col.name ? col.name : "this college";
+      if (confirm("Remove " + nm + " and everything you wrote about it?")) {
+        state.colleges = state.colleges.filter(function (x) { return x !== col; });
+        renderColleges(); renderCompare(); save();
+      }
+    }
+  });
+
+  document.getElementById("btn-add").addEventListener("click", function () {
+    var c = blankCollege();
+    state.colleges.push(c);
+    renderColleges(); renderCompare(); save();
+    var input = document.getElementById(c.id + "-name");
+    if (input) { input.scrollIntoView({ block: "center" }); input.focus({ preventScroll: true }); }
+  });
+
+  /* Tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  function selectTab(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+    });
+    if (tab.id === "tab-compare") renderCompare();
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { selectTab(t); });
+    t.addEventListener("keydown", function (e) {
+      var n = null;
+      if (e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+      if (e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (e.key === "Home") n = tabs[0];
+      if (e.key === "End") n = tabs[tabs.length - 1];
+      if (n) { e.preventDefault(); selectTab(n, true); }
+    });
+  });
+
+  /* Print */
+  function openAllDetails() { document.querySelectorAll("details.college").forEach(function (d) { d.open = true; }); }
+  window.addEventListener("beforeprint", openAllDetails);
+  window.addEventListener("afterprint", function () {
+    if (printingBlank) {
+      state = savedState; savedState = null; printingBlank = false;
+      renderAll();
+    }
+  });
+  document.getElementById("btn-print").addEventListener("click", function () {
+    renderCompare(); openAllDetails(); window.print();
+  });
+  document.getElementById("btn-print-blank").addEventListener("click", function () {
+    savedState = state;
+    printingBlank = true;
+    state = blankState();
+    state.colleges = [blankCollege(), blankCollege(), blankCollege()];
+    renderAll();
+    openAllDetails();
+    setTimeout(function () { window.print(); }, 50);
+  });
+
+  /* Backup */
+  document.getElementById("btn-export").addEventListener("click", function () {
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    var d = new Date();
+    a.href = URL.createObjectURL(blob);
+    a.download = "college-workbook-backup-" + d.toISOString().slice(0, 10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  });
+  var fileInput = document.getElementById("import-file");
+  document.getElementById("btn-import").addEventListener("click", function () { fileInput.click(); });
+  fileInput.addEventListener("change", function () {
+    var f = fileInput.files && fileInput.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var data = JSON.parse(reader.result);
+        if (!data || !Array.isArray(data.colleges)) throw new Error("bad");
+        if (!confirm("Replace what's in this workbook now with your backup?")) return;
+        state = normalize(data);
+        renderAll(); save();
+      } catch (e) {
+        alert("That file isn't a workbook backup. Choose the .json file you downloaded with Download backup.");
+      }
+      fileInput.value = "";
+    };
+    reader.readAsText(f);
+  });
+
+  document.getElementById("btn-clear").addEventListener("click", function () {
+    if (confirm("Erase everything in this workbook? Download a backup first if you might want it later.")) {
+      state = blankState();
+      renderAll(); save();
+    }
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
